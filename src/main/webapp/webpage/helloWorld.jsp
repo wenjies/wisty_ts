@@ -1,77 +1,102 @@
-<%@ page contentType="text/html;charset=UTF-8"%>
-<%@ include file="../include/taglib.jsp"%>
-<%@include file="../include/head.jsp"%>
 <!DOCTYPE html>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
-<meta http-equiv="Content-Type">
-<title>Insert title here</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<%@ include file="../include/taglib.jsp"%>
+<%@include file="../include/head.jsp"%>
+<title>12306火车票查询</title>
 </head>
 <body>
-	${Wisty}
 	<form class="layui-form" action="">
 		<div class="layui-form-item">
-			<label class="layui-form-label">输入框</label>
-			<div class="layui-input-block">
-				<input type="text" name="title" required lay-verify="required"
-					placeholder="请输入标题" autocomplete="off" class="layui-input">
+			<div class="layui-inline">
+				<label class="layui-form-label">出发地:</label>
+				<div class="layui-input-inline">
+					<input type="text" name="title" required lay-verify="required" placeholder="请输入出发地" autocomplete="off" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">目的地:</label>
+				<div class="layui-input-inline">
+					<input type="text" name="title" required lay-verify="required" placeholder="请输入目的地" autocomplete="off" class="layui-input">
+				</div>
 			</div>
 		</div>
+
 		<div class="layui-form-item">
-			<label class="layui-form-label">密码框</label>
-			<div class="layui-input-inline">
-				<input type="password" name="password" required
-					lay-verify="required" placeholder="请输入密码" autocomplete="off"
-					class="layui-input">
+			<div class="layui-inline">
+				<label class="layui-form-label">出发日:</label>
+				<div class="layui-input-inline">
+					<input type="text" name="date" id="date" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+				</div>
 			</div>
-			<div class="layui-form-mid layui-word-aux">辅助文字</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">返程日:</label>
+				<div class="layui-input-inline">
+					<input type="text" name="date" id="date1" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+				</div>
+			</div>
 		</div>
+
 		<div class="layui-form-item">
-			<label class="layui-form-label">选择框</label>
+			<label class="layui-form-label">车票类型:</label>
 			<div class="layui-input-block">
-				<select name="city" lay-verify="required">
-					<option value=""></option>
-					<option value="0">北京</option>
-					<option value="1">上海</option>
-					<option value="2">广州</option>
-					<option value="3">深圳</option>
-					<option value="4">杭州</option>
-				</select>
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">复选框</label>
-			<div class="layui-input-block">
-				<input type="checkbox" name="like[write]" title="写作"> <input
-					type="checkbox" name="like[read]" title="阅读" checked> <input
-					type="checkbox" name="like[dai]" title="发呆">
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">开关</label>
-			<div class="layui-input-block">
-				<input type="checkbox" name="switch" lay-skin="switch">
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">单选框</label>
-			<div class="layui-input-block">
-				<input type="radio" name="sex" value="男" title="男"> <input
-					type="radio" name="sex" value="女" title="女" checked>
-			</div>
-		</div>
-		<div class="layui-form-item layui-form-text">
-			<label class="layui-form-label">文本域</label>
-			<div class="layui-input-block">
-				<textarea name="desc" placeholder="请输入内容" class="layui-textarea"></textarea>
+				<input type="radio" name="sex" value="" title="普通" checked>
+				<input type="radio" name="sex" value="" title="学生">
 			</div>
 		</div>
 		<div class="layui-form-item">
 			<div class="layui-input-block">
-				<button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
-				<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+				<button class="layui-btn" lay-submit lay-filter="formDemo">查询</button>
 			</div>
 		</div>
 	</form>
+	<table class="layui-hide" id="LAY_table_user" lay-filter="user"></table>
 </body>
+
+<script>
+	layui.use([ 'form', 'laydate','table' ], function() {
+		var form = layui.form,
+			layer = layui.layer,
+			laydate = layui.laydate,
+			table = layui.table;
+		//日期
+		laydate.render({
+			elem : '#date'
+		});
+		laydate.render({
+			elem : '#date1'
+		});
+		form.render();
+		
+		//方法级渲染
+		  table.render({
+		    elem: '#LAY_table_user'
+		    ,cols: [[
+		      	{field:'username', title: '车次', width:80}
+		      ,{field:'sex', title: '出发站/到达站', width:120}
+		      ,{field:'city', title: '出发时间/到达时间', width:150}
+		      ,{field:'sign', title: '历时', width:80}
+		      ,{field:'experience', title: '商务座/特等座', width:120}
+		      ,{field:'score', title: '一等座',width:80}
+		      ,{field:'classify', title: '二等座', width:80}
+		      ,{field:'gjrw', title: '高级软卧', width:100}
+		      ,{field:'rw', title: '软卧', width:80}
+		      ,{field:'dw', title: '动卧', width:80}
+		      ,{field:'yw', title: '硬卧', width:80}
+		      ,{field:'rz', title: '软座', width:80}
+		      ,{field:'yz', title: '硬座', width:80}
+		      ,{field:'wz', title: '无座', width:80}
+		      ,{field:'qt', title: '其他', width:80}
+		      ,{field:'remark', title: '备注', width:135}
+		    ]]
+		    ,id: 'testReload'
+		    ,page: false
+		    ,height: 315
+		  });
+	});
+</script>
 </html>
