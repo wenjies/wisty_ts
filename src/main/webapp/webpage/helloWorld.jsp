@@ -10,18 +10,18 @@
 <title>12306火车票查询</title>
 </head>
 <body>
-	<form class="layui-form" action="">
+	<form class="layui-form" action="/demo/helloWorld">
 		<div class="layui-form-item">
 			<div class="layui-inline">
 				<label class="layui-form-label">出发地:</label>
 				<div class="layui-input-inline">
-					<input type="text" name="title" required lay-verify="required" placeholder="请输入出发地" autocomplete="off" class="layui-input">
+					<input type="text" name="departStation" required lay-verify="required" placeholder="请输入出发地" autocomplete="off" class="layui-input">
 				</div>
 			</div>
 			<div class="layui-inline">
 				<label class="layui-form-label">目的地:</label>
 				<div class="layui-input-inline">
-					<input type="text" name="title" required lay-verify="required" placeholder="请输入目的地" autocomplete="off" class="layui-input">
+					<input type="text" name="arriveStation" required lay-verify="required" placeholder="请输入目的地" autocomplete="off" class="layui-input">
 				</div>
 			</div>
 		</div>
@@ -30,7 +30,7 @@
 			<div class="layui-inline">
 				<label class="layui-form-label">出发日:</label>
 				<div class="layui-input-inline">
-					<input type="text" name="date" id="date" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+					<input type="text" name="departDate" id="date" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
 				</div>
 			</div>
 			<div class="layui-inline">
@@ -44,8 +44,8 @@
 		<div class="layui-form-item">
 			<label class="layui-form-label">车票类型:</label>
 			<div class="layui-input-block">
-				<input type="radio" name="sex" value="" title="普通" checked>
-				<input type="radio" name="sex" value="" title="学生">
+				<input type="radio" name="passengerType" value="1" title="普通" checked>
+				<input type="radio" name="passengerType" value="2" title="学生">
 			</div>
 		</div>
 		<div class="layui-form-item">
