@@ -1,5 +1,10 @@
 package com.wisty.ts.core.controller;
 
+import java.io.IOException;
+import java.util.LinkedList;
+
+import org.apache.http.client.ClientProtocolException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,6 +12,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.wisty.ts.core.bean.QueryCondition;
+import com.wisty.ts.core.bean.TicketInfo;
+import com.wisty.ts.core.service.QueryTrainTicketInterface;
 
 /** 
  * @Description Demo
@@ -18,12 +25,23 @@ import com.wisty.ts.core.bean.QueryCondition;
 @RequestMapping(value = "/demo")  	
 public class DemoController{
 	
+	@Autowired
+	private QueryTrainTicketInterface queryTrainTicketInterface;
+	
 	/** 
 	 * @Description 系统用户登陆
 	 */
-	@GetMapping(value = "helloWorld") 	
+	@RequestMapping(value = "helloWorld") 	
 	public String Demo(@ModelAttribute QueryCondition condition,Model model){
-		model.addAttribute("Wisty", "Wisty_ts Begin");
+		LinkedList<TicketInfo> tickets=new LinkedList<TicketInfo>();
+		try {
+			tickets=queryTrainTicketInterface.getTrainTicket(condition);
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		model.addAttribute("tickets", tickets);
 		return "helloWorld";
 	}
 	

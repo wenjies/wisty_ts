@@ -76,22 +76,22 @@
 		  table.render({
 		    elem: '#LAY_table_user'
 		    ,cols: [[
-		      	{field:'username', title: '车次', width:80}
-		      ,{field:'sex', title: '出发站/到达站', width:120}
-		      ,{field:'city', title: '出发时间/到达时间', width:150}
-		      ,{field:'sign', title: '历时', width:80}
-		      ,{field:'experience', title: '商务座/特等座', width:120}
-		      ,{field:'score', title: '一等座',width:80}
-		      ,{field:'classify', title: '二等座', width:80}
-		      ,{field:'gjrw', title: '高级软卧', width:100}
-		      ,{field:'rw', title: '软卧', width:80}
-		      ,{field:'dw', title: '动卧', width:80}
-		      ,{field:'yw', title: '硬卧', width:80}
-		      ,{field:'rz', title: '软座', width:80}
-		      ,{field:'yz', title: '硬座', width:80}
-		      ,{field:'wz', title: '无座', width:80}
-		      ,{field:'qt', title: '其他', width:80}
-		      ,{field:'remark', title: '备注', width:135}
+		      	{field:'username', title: '车次'}
+		      ,{field:'sex', title: '出发站/到达站'}
+		      ,{field:'city', title: '出发时间/到达时间'}
+		      ,{field:'sign', title: '历时'}
+		      ,{field:'experience', title: '商务座/特等座'}
+		      ,{field:'score', title: '一等座'}
+		      ,{field:'classify', title: '二等座'}
+		      ,{field:'gjrw', title: '高级软卧'}
+		      ,{field:'rw', title: '软卧'}
+		      ,{field:'dw', title: '动卧'}
+		      ,{field:'yw', title: '硬卧'}
+		      ,{field:'rz', title: '软座'}
+		      ,{field:'yz', title: '硬座'}
+		      ,{field:'wz', title: '无座'}
+		      ,{field:'qt', title: '其他'}
+		      ,{field:'remark', title: '备注'}
 		    ]]
 		    ,id: 'testReload'
 		    ,page: false
