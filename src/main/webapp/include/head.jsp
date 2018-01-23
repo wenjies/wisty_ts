@@ -7,6 +7,9 @@
 <script src="${ctxStatic}/layui/layui.all.js"></script>
 <link href="${ctxStatic}/layui/css/layui.css" rel="stylesheet" />
 
+<!-- 引入12306站点选择插件 -->
+<script src="${ctxStatic}/city-select/cityselect.js"></script>
+<link href="${ctxStatic}/city-select/cityselect.css" rel="stylesheet" />
 
 
 
