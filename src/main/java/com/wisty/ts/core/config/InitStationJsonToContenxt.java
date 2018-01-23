@@ -5,6 +5,12 @@ import java.io.IOException;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.http.Header;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.util.ResourceUtils;
@@ -12,6 +18,7 @@ import org.springframework.util.ResourceUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.wisty.ts.core.bean.Station;
+import com.wisty.ts.core.util.CookieUtil;
 import com.wisty.ts.core.util.LocalCacheUtil;
 
 /**
@@ -36,6 +43,24 @@ public class InitStationJsonToContenxt implements
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		System.out.println("--------------初始化12306网站cookie----------------");
+		CloseableHttpClient client = HttpClientBuilder.create().build();
+		HttpGet httpGet = new HttpGet("https://kyfw.12306.cn/otn/leftTicket/init");
+		try {
+			CloseableHttpResponse response = client.execute(httpGet);
+			Header[] headers = response.getHeaders("Set-Cookie");
+			StringBuffer sb = new StringBuffer();
+			for (Header header : headers) {
+				sb.append(header.getValue().split(" ")[0]);
+			}
+			CookieUtil.initCookie(sb.toString());
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		CookieUtil.getCookie();
 	}
 
 }
