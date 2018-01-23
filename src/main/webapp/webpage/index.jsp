@@ -10,7 +10,7 @@
 <title>12306火车票查询</title>
 </head>
 <body>
-	<form class="layui-form" action="/demo/helloWorld">
+	<form class="layui-form">
 		<div class="layui-form-item">
 			<div class="layui-inline">
 				<label class="layui-form-label">出发地:</label>
@@ -30,28 +30,28 @@
 			<div class="layui-inline">
 				<label class="layui-form-label">出发日:</label>
 				<div class="layui-input-inline">
-					<input type="text" name="departDate" id="date" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+					<input type="text" name="departDate" id="departDate" required lay-verify="date" autocomplete="off" class="layui-input">
 				</div>
 			</div>
-			<div class="layui-inline">
-				<label class="layui-form-label">返程日:</label>
-				<div class="layui-input-inline">
-					<input type="text" name="date" id="date1" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
-				</div>
-			</div>
+<!-- 			<div class="layui-inline"> -->
+<!-- 				<label class="layui-form-label">返程日:</label> -->
+<!-- 				<div class="layui-input-inline"> -->
+<!-- 					<input type="text" name="date" id="date1" lay-verify="date" autocomplete="off" class="layui-input"> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
 		</div>
 
 		<div class="layui-form-item">
 			<div class="layui-inline">
 				<label class="layui-form-label">类型:</label>
 				<div class="layui-input-block">
-					<input type="radio" name="passengerType" value="1" title="普通票" checked>
-					<input type="radio" name="passengerType" value="2" title="学生票">
+					<input type="radio" id="passengerType" name="passengerType" value="ADULT" title="普通票" checked>
+					<input type="radio" id="passengerType" name="passengerType" value="0X00" title="学生票">
 				</div>
 			</div>
 			<div class="layui-inline">
 				<div class="layui-input-block">
-					<button class="layui-btn" lay-submit lay-filter="formDemo">查询</button>
+					<button class="layui-btn" data-type="reload" >查询</button>
 				</div>
 			</div>
 		</div>
@@ -67,24 +67,33 @@
 			table = layui.table;
 		//日期
 		laydate.render({
-			elem : '#date'
+			elem : '#departDate',
+			calendar: true,
+			value:new Date(),
+			min:0,
+			max:30
 		});
 		laydate.render({
-			elem : '#date1'
+			elem : '#date1',
+			calendar: true,
+			value:new Date(),
+			min:0,
+			max:30
 		});
 		form.render();
 		
 		//方法级渲染
 		  table.render({
 		    elem: '#LAY_table_user'
+		    ,url: '/wisty_ts/reload'
 		    ,cols: [[
-		      	{field:'username', title: '车次'}
-		      ,{field:'sex', title: '出发站/到达站'}
-		      ,{field:'city', title: '出发时间/到达时间'}
-		      ,{field:'sign', title: '历时'}
-		      ,{field:'experience', title: '商务座/特等座'}
-		      ,{field:'score', title: '一等座'}
-		      ,{field:'classify', title: '二等座'}
+		       {field:'trainId', title: '车次'}
+		      ,{field:'departStation', title: '出发站/到达站'}
+		      ,{field:'departTime', title: '出发时间/到达时间'}
+		      ,{field:'takeTime', title: '历时'}
+		      ,{field:'swz', title: '商务座/特等座'}
+		      ,{field:'ydz', title: '一等座'}
+		      ,{field:'edz', title: '二等座'}
 		      ,{field:'gjrw', title: '高级软卧'}
 		      ,{field:'rw', title: '软卧'}
 		      ,{field:'dw', title: '动卧'}
@@ -99,6 +108,25 @@
 		    ,page: false
 		    ,height: 315
 		  });
+		
+		  var $ = layui.$,active = {
+		    reload: function() {
+		      table.reload('testReload', {
+		        method: 'post',
+		        where: {
+		        	departStation: $("#departStation").val(),
+		        	arriveStation: $("#arriveStation").val(),
+		        	departDate: $("#departDate").val(),
+		        	passengerType: $("#passengerType").val(),
+		          }
+		      });
+		    }
+		  };
+		
+		  $('.layui-btn').on('click', function(){
+			    var type = $(this).data('type');
+			    active[type] ? active[type].call(this) : '';
+			}); 
 	});
 	
 	//实例化input

@@ -1,9 +1,18 @@
 package com.wisty.ts.core.controller;
 
+import java.io.IOException;
+import java.util.LinkedList;
+
+import org.apache.http.client.ClientProtocolException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
+import com.wisty.ts.core.bean.QueryCondition;
+import com.wisty.ts.core.bean.TicketInfo;
 import com.wisty.ts.core.service.QueryTrainTicketInterface;
 
 /**
@@ -24,16 +33,24 @@ public class DemoController {
 	 */
 	@RequestMapping(value = "index")
 	public String index() {
-//		LinkedList<TicketInfo> tickets = new LinkedList<TicketInfo>();
-//		try {
-//			tickets = queryTrainTicketInterface.getTrainTicket(condition);
-//		} catch (ClientProtocolException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		model.addAttribute("tickets", tickets);
 		return "index";
 	}
 
+	@ResponseBody
+	@RequestMapping(value = "reload")
+	public String reload(@ModelAttribute QueryCondition condition){
+		LinkedList<TicketInfo> tickets = new LinkedList<TicketInfo>();
+		if (condition.getPassengerType()==null) {
+			return new Gson().toJson(tickets);
+		}
+		try {
+			tickets = queryTrainTicketInterface.getTrainTicket(condition);
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return new Gson().toJson(tickets);
+	}
+	
 }

@@ -16,6 +16,7 @@ import com.wisty.ts.core.bean.TicketInfo;
 import com.wisty.ts.core.bean.TrainTicketResponse;
 import com.wisty.ts.core.util.ConvertUtil;
 import com.wisty.ts.core.util.HttpClientUtil;
+import com.wisty.ts.core.util.LocalCacheUtil;
 
 /**
  * @Description 12306车票查询接口
@@ -33,8 +34,8 @@ public class QueryTrainTicketInterface {
 	 */
 	private static String assembleRequestUrl(QueryCondition condition) {
 		String reqUrl = MessageFormat.format(TRAIN_TICKET_URL_PATTERN,
-				condition.getDepartDate(), condition.getDepartStation(),
-				condition.getArriveStation(), condition.getPassengerType());
+				condition.getDepartDate(), LocalCacheUtil.getCode(condition.getDepartStation()),
+				LocalCacheUtil.getCode(condition.getArriveStation()), condition.getPassengerType());
 		return reqUrl;
 
 	}
@@ -48,7 +49,10 @@ public class QueryTrainTicketInterface {
 			throws ClientProtocolException, IOException {
 		LinkedList<TicketInfo> tickets = new LinkedList<TicketInfo>();
 		// 获取查询响应数据
-		String resDataStr = HttpClientUtil.doGet(assembleRequestUrl(condition));
+		String reqUrl=assembleRequestUrl(condition);
+		System.out.println("请求Url:"+reqUrl);
+		String resDataStr = HttpClientUtil.doGet(reqUrl);
+		System.out.println("响应数据2:"+resDataStr);
 		BaseResponseEntity<TrainTicketResponse> response = new Gson().fromJson(
 				resDataStr,
 				new TypeToken<BaseResponseEntity<TrainTicketResponse>>() {

@@ -18,11 +18,11 @@ public class LocalCacheUtil {
 	
 	public static void cacheMap(List<Station> list){
 		for (Station station : list) {
-			localMap.put(station.getCode(), station.getName());
+			localMap.put(station.getName(),station.getCode());
 		}
 	}
 	
-	public static String getName(String code){
-		return localMap.get(code);
+	public static String getCode(String name){
+		return localMap.get(name);
 	}
 }

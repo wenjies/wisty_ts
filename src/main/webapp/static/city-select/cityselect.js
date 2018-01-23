@@ -163,9 +163,9 @@ Vcity.regExChiese = /([\u4E00-\u9FA5\uf900-\ufa2d]+)/;
 
 /* 城市HTML模板 */
 Vcity._template = [
-    '<p class="tip">直接输入可搜索城市(支持汉字/拼音)</p>',
+    '<p class="tip">直接输入可搜索站点(支持汉字/拼音)</p>',
     '<ul>',
-    '<li class="on">热门城市</li>',
+    '<li class="on">热门</li>',
     '<li>AB</li>',
     '<li>CD</li>',
     '<li>EFG</li>',

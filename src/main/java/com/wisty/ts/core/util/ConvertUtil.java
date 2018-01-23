@@ -1,11 +1,9 @@
 package com.wisty.ts.core.util;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import com.google.gson.Gson;
-import com.wisty.ts.core.bean.Station;
 import com.wisty.ts.core.bean.TicketInfo;
 
 /** 
