@@ -9,7 +9,6 @@ import java.util.Map.Entry;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpHeaders;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -92,17 +91,8 @@ public class HttpClientUtil {
 		String result = "";
 		CloseableHttpClient client = HttpClientBuilder.create().build();
 		HttpGet httpGet = new HttpGet(url);
-		httpGet.addHeader(HttpHeaders.ACCEPT,"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
-		httpGet.addHeader(HttpHeaders.ACCEPT_ENCODING,"gzip, deflate, sdch, br");
-		httpGet.addHeader(HttpHeaders.ACCEPT_LANGUAGE, "zh-CN,zh;q=0.8");
-		httpGet.addHeader(HttpHeaders.CACHE_CONTROL, "max-age=0");
-		httpGet.addHeader(HttpHeaders.CONNECTION, "keep-alive");
-		httpGet.addHeader(HttpHeaders.HOST, "kyfw.12306.cn");
-		httpGet.addHeader("Cookie","JSESSIONID=3273405C6B5E2E7408D86E19DFDFB915; route=6f50b51faa11b987e576cdb301e545c4; BIGipServerotn=4090953994.50210.0000;");
-		if (headers != null) {
-			for (Map.Entry<String, String> param : headers.entrySet()) {
-				httpGet.addHeader(param.getKey(), param.getValue());
-			}
+		for (Map.Entry<String, String> param : headers.entrySet()) {
+			httpGet.addHeader(param.getKey(), param.getValue());
 		}
 		try {
 			CloseableHttpResponse response = client.execute(httpGet);

@@ -33,12 +33,12 @@
 					<input type="text" name="departDate" id="departDate" required lay-verify="date" autocomplete="off" class="layui-input">
 				</div>
 			</div>
-<!-- 			<div class="layui-inline"> -->
-<!-- 				<label class="layui-form-label">返程日:</label> -->
-<!-- 				<div class="layui-input-inline"> -->
-<!-- 					<input type="text" name="date" id="date1" lay-verify="date" autocomplete="off" class="layui-input"> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
+			<div class="layui-inline">
+				<label class="layui-form-label">返程日:</label>
+				<div class="layui-input-inline">
+					<input type="text" name="arriveDate" id="arriveDate" lay-verify="date" autocomplete="off" class="layui-input">
+				</div>
+			</div>
 		</div>
 
 		<div class="layui-form-item">
@@ -74,7 +74,7 @@
 			max:30
 		});
 		laydate.render({
-			elem : '#date1',
+			elem : '#arriveDate',
 			calendar: true,
 			value:new Date(),
 			min:0,
@@ -117,6 +117,7 @@
 		        	departStation: $("#departStation").val(),
 		        	arriveStation: $("#arriveStation").val(),
 		        	departDate: $("#departDate").val(),
+		        	arriveDate: $("#arriveDate").val(),
 		        	passengerType: $("#passengerType").val(),
 		          }
 		      });

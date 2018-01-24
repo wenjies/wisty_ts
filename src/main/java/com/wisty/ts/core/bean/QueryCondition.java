@@ -14,12 +14,23 @@ public class QueryCondition implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String departDate;// 出发日期
+	
+	private String arriveDate;//到达日期
 
 	private String departStation;// 出发站点
 
 	private String arriveStation;// 到达站点
 
 	private String passengerType;// 乘客类型 普通/学生
+	
+
+	public String getArriveDate() {
+		return arriveDate;
+	}
+
+	public void setArriveDate(String arriveDate) {
+		this.arriveDate = arriveDate;
+	}
 
 	public String getDepartDate() {
 		return departDate;
