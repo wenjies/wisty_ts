@@ -49,7 +49,7 @@ public class InitStationJsonToContenxt implements
 
 	public static String GetJs = "https://kyfw.12306.cn/otn/HttpZF/GetJS";
 
-	public static String logdevice = "https://kyfw.12306.cn/otn/HttpZF/logdevice?algID={0}&hashCode={1}";
+	public static String logdevice = "https://kyfw.12306.cn/otn/HttpZF/logdevice?algID=TUXOYiuLNK&hashCode=YKgUMa0p5ocOKv6YOsZDjU26V_vpm6C8mlFyOx3KP18&FMQw=0&q4f3=zh-CN&VySQ=FGH_JEzty7enqLSTP9aMhmsjuL-uL7ry&VPIf=1&custID=133&VEek=unknown&dzuS=0&yD16=0&EOQP=2e3118d565c7ff7fc669ee0fea13ce9b&lEnu=2886735483&jp76=e237f9703f53d448d77c858b634154a5&hAqN=Win32&platform=WEB&ks0Q=b9a555dce60346a48de933b3e16ebd6e&TeRS=1080x1846&tOHY=24xx1080x1920&Fvje=i1l1o1s1&q5aJ=-8&wNLf=99115dfb07133750ba677d055874de87&0aew=Mozilla/5.0%20(Windows%20NT%2010.0;%20WOW64)%20AppleWebKit/537.36%20(KHTML,%20like%20Gecko)%20Chrome/63.0.3239.84%20Safari/537.36&E3gR=0031633d73b53a68accf673375fd1ce0&timestamp="+System.currentTimeMillis();
 
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent arg0) {
@@ -65,9 +65,7 @@ public class InitStationJsonToContenxt implements
 			e.printStackTrace();
 		}
 		logger.info("-----------------------初始化12306网站cookie Begin------------------");
-		// 1.初始化获取Cookie---->JSESSIONID=E0ABA45EF0FB58C8759FC7052B157D28;
-		// route=495c805987d0f5c8c84b14f60212447d;
-		// BIGipServerotn=1156055306.64545.0000
+		// 1.初始化获取Cookie---->JSESSIONID=E0ABA45EF0FB58C8759FC7052B157D28;route=495c805987d0f5c8c84b14f60212447d;BIGipServerotn=1156055306.64545.0000
 		CloseableHttpClient client = HttpClientBuilder.create().build();
 		HttpGet httpGet = new HttpGet(initUrl);
 		try {
@@ -93,23 +91,13 @@ public class InitStationJsonToContenxt implements
 		headerMap.put(HttpHeaders.HOST, "kyfw.12306.cn");
 		headerMap.put(HttpHeaders.REFERER, initUrl);
 		headerMap.put("Cookie", CookieUtil.getCookie());
-		String getJs = HttpClientUtil.doGet(GetJs, headerMap);
-		Pattern p = Pattern.compile("algID(.*?)hashCode");
-		Matcher m = p.matcher(getJs);
-		while (m.find()) {
-			String algID = m.group(1).replace("\\x3d", "").replace("\\x26", "");
-			logger.info("--------------------algID:" + algID);
-			// 3.根据algID换取Cookie中的RAIL_EXPIRATION RAIL_DEVICEID
-			String devideUrl = MessageFormat.format(logdevice, algID, UUID.randomUUID().toString());
-			logger.info("--------------------devideUrl:" + devideUrl);
-			String devideStr = HttpClientUtil.doGet(devideUrl, headerMap);
-			Matcher mStr = Pattern.compile("\'(.*?)\'").matcher(devideStr);
-			while (mStr.find()) {
-				JSONObject obj=JSON.parseObject(mStr.group(1));
-				String authUrl="RAIL_EXPIRATION={0}; RAIL_DEVICEID={1};";
-				CookieUtil.push("rail", MessageFormat.format(authUrl, obj.get("exp").toString(),obj.get("dfp").toString()));
-				logger.info("--------------------rail:" + MessageFormat.format(authUrl, obj.get("exp").toString(),obj.get("dfp").toString()));
-			}
+		String devideStr = HttpClientUtil.doGet(logdevice, headerMap);
+		Matcher mStr = Pattern.compile("\'(.*?)\'").matcher(devideStr);
+		while (mStr.find()) {
+			JSONObject obj=JSON.parseObject(mStr.group(1));
+			String authUrl="RAIL_EXPIRATION={0}; RAIL_DEVICEID={1};";
+			CookieUtil.push("rail", MessageFormat.format(authUrl, obj.get("exp").toString(),obj.get("dfp").toString()));
+			logger.info("--------------------rail:" + MessageFormat.format(authUrl, obj.get("exp").toString(),obj.get("dfp").toString()));
 		}
 		logger.info("-----------------------初始化12306网站cookie End------------------");
 	}

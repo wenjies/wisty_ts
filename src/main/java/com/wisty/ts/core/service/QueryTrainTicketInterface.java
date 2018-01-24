@@ -69,7 +69,12 @@ public class QueryTrainTicketInterface {
 	}
 
 	private static String concatStation(String name) {
-		return name.concat(",").concat(LocalCacheUtil.getCode(name));
+		try {
+			return URLEncoder.encode(name.concat(",").concat(LocalCacheUtil.getCode(name)),"utf-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return "";
 	}
 
 	/**
@@ -127,9 +132,9 @@ public class QueryTrainTicketInterface {
 		headerMap.put(HttpHeaders.CACHE_CONTROL, "max-age=0");
 		headerMap.put(HttpHeaders.CONNECTION, "keep-alive");
 		headerMap.put(HttpHeaders.HOST, "kyfw.12306.cn");
-		headerMap.put("Cookie","_jc_save_wfdc_flag=dc; _jc_save_fromStation=%E5%8C%97%E4%BA%AC%2CBJP; _jc_save_toStation=%E4%B8%8A%E6%B5%B7%2CSHH; _jc_save_fromDate=2018-02-05; _jc_save_toDate=2018-01-24;JSESSIONID=9ABA0841221D5942D5B8EEEDE8BA2BE4; route=c5c62a339e7744272a54643b3be5bf64; BIGipServerotn=619184394.50210.0000;RAIL_EXPIRATION=1517053192601; RAIL_DEVICEID=H4vuZRd_dgCV8PKXW5aqWkE34i8qkC_c7-lhRrpregrr3KsCQi8-FsxOmpQcZni7fEUZWXcWncF37VIDgWAfArMYYlBMbb4vbtaiy-8BT5qH4sWcn6E_vBfQs8hGl57_P_0fbKVy7fElaWDUdMA0KNbL5fFfazl9;");
+		headerMap.put("Cookie","_jc_save_wfdc_flag=dc; _jc_save_fromStation=北京,BJP; _jc_save_toStation=上海,SHH; _jc_save_fromDate=2018-01-24; _jc_save_toDate=2018-01-24;RAIL_EXPIRATION=1517068126772; RAIL_DEVICEID=Eu0A1ZLXoRdkbqvxBUExag6UWALyOl4ZnjvEXJEiNe15cOK7ZLjRiJX5fSDH4xHjh2D0jnyFkq6xx8dsVcVgvf63L-Wn95uoutFkdE3n63qxAJS3LSEV2UfJr29ddWGFWdjKbPzdYx3rQOlsVOeoQnXqCUxtsweo;route=6f50b51faa11b987e576cdb301e545c4;JSESSIONID=168B4EA6F2CD400704C8FB206A5B6258;BIGipServerotn=2664890634.50210.0000;");
 		CloseableHttpClient client = HttpClientBuilder.create().build();
-		HttpGet httpGet = new HttpGet("https://kyfw.12306.cn/otn/leftTicket/queryZ?leftTicketDTO.train_date=2018-02-07&leftTicketDTO.from_station=BJP&leftTicketDTO.to_station=SHH&purpose_codes=ADULT");
+		HttpGet httpGet = new HttpGet("https://kyfw.12306.cn/otn/leftTicket/queryZ?leftTicketDTO.train_date=2018-01-24&leftTicketDTO.from_station=BJP&leftTicketDTO.to_station=SHH&purpose_codes=ADULT");
 		for (Map.Entry<String, String> param : headerMap.entrySet()) {
 			httpGet.addHeader(param.getKey(), param.getValue());
 		}
