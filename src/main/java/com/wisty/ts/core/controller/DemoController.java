@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import com.wisty.ts.core.bean.QueryCondition;
 import com.wisty.ts.core.bean.TicketInfo;
 import com.wisty.ts.core.service.QueryTrainTicketInterface;
+import com.wisty.ts.core.tool.BaseRes;
 
 /**
  * @Description Demo
@@ -41,7 +42,7 @@ public class DemoController {
 	public String reload(@ModelAttribute QueryCondition condition){
 		LinkedList<TicketInfo> tickets = new LinkedList<TicketInfo>();
 		if (condition.getPassengerType()==null) {
-			return new Gson().toJson(tickets);
+			return new Gson().toJson(BaseRes.success(tickets));
 		}
 		try {
 			tickets = queryTrainTicketInterface.getTrainTicket(condition);
@@ -50,7 +51,7 @@ public class DemoController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return new Gson().toJson(tickets);
+		return new Gson().toJson(BaseRes.success(tickets));
 	}
 	
 }

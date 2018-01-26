@@ -49,13 +49,11 @@
 					<input type="radio" id="passengerType" name="passengerType" value="0X00" title="学生票">
 				</div>
 			</div>
-			<div class="layui-inline">
-				<div class="layui-input-block">
-					<button class="layui-btn" data-type="reload" >查询</button>
-				</div>
-			</div>
 		</div>
 	</form>
+	<div class="layui-input-block">
+		<button class="layui-btn" data-type="reload" >查询</button>
+	</div>
 	<table class="layui-hide" id="LAY_table_user" lay-filter="user"></table>
 </body>
 
@@ -71,14 +69,14 @@
 			calendar: true,
 			value:new Date(),
 			min:0,
-			max:30
+			max:29
 		});
 		laydate.render({
 			elem : '#arriveDate',
 			calendar: true,
 			value:new Date(),
 			min:0,
-			max:30
+			max:29
 		});
 		form.render();
 		
@@ -88,8 +86,10 @@
 		    ,url: '/wisty_ts/reload'
 		    ,cols: [[
 		       {field:'trainId', title: '车次'}
-		      ,{field:'departStation', title: '出发站/到达站'}
-		      ,{field:'departTime', title: '出发时间/到达时间'}
+		      ,{field:'departStation', title: '出发站'}
+		      ,{field:'arriveStation', title: '到达站'}
+		      ,{field:'departTime', title: '出发时间'}
+		      ,{field:'arriveTime', title: '到达时间'}
 		      ,{field:'takeTime', title: '历时'}
 		      ,{field:'swz', title: '商务座/特等座'}
 		      ,{field:'ydz', title: '一等座'}
@@ -105,21 +105,43 @@
 		      ,{field:'remark', title: '备注'}
 		    ]]
 		    ,id: 'testReload'
-		    ,page: false
-		    ,height: 315
+		    ,page: false,
+		    text: {
+		        none: '暂无相关车次数据' //默认：无数据。注：该属性为 layui 2.2.5 开始新增
+		      }
 		  });
 		
 		  var $ = layui.$,active = {
 		    reload: function() {
+		      var departStation=$("#departStation").val();
+		      if(departStation==''){
+		    	  layer.msg('请选择出发地！！', {icon: 5})
+		    	  return;
+		      }
+		      var arriveStation=$("#arriveStation").val();
+		      if(arriveStation==''){
+		    	  layer.msg('请选择到达地！！', {icon: 5})
+		    	  return;
+		      }
+		      var departDate=$("#departDate").val();
+		      if(departDate==''){
+		    	  layer.msg('请选择出发时间！！', {icon: 5})
+		    	  return;
+		      }
 		      table.reload('testReload', {
 		        method: 'post',
 		        where: {
-		        	departStation: $("#departStation").val(),
-		        	arriveStation: $("#arriveStation").val(),
-		        	departDate: $("#departDate").val(),
+		        	departStation:departStation,
+		        	arriveStation:arriveStation,
+		        	departDate:departDate,
 		        	arriveDate: $("#arriveDate").val(),
 		        	passengerType: $("#passengerType").val(),
-		          }
+		          },
+		         response: {
+		        	  statusName: 'code' //数据状态的字段名称，默认：code
+		        	  ,statusCode: 200 //成功的状态码，默认：0
+		        	  ,msgName: 'msg' //状态信息的字段名称，默认：msg
+	        	   }  
 		      });
 		    }
 		  };

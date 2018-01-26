@@ -2,6 +2,8 @@ package com.wisty.ts.core.bean;
 
 import java.io.Serializable;
 
+import com.wisty.ts.core.util.LocalCacheUtil;
+
 /**
  * @Description 12306车次车票
  * @author 刘小龙
@@ -132,7 +134,7 @@ public class TicketInfo implements Serializable {
 	}
 
 	public void setStartStation(String startStation) {
-		this.startStation = startStation;
+		this.startStation = LocalCacheUtil.getName(startStation);
 	}
 
 	public String getEndStation() {
@@ -140,7 +142,7 @@ public class TicketInfo implements Serializable {
 	}
 
 	public void setEndStation(String endStation) {
-		this.endStation = endStation;
+		this.endStation = LocalCacheUtil.getName(endStation);
 	}
 
 	public String getDepartStation() {
@@ -148,7 +150,7 @@ public class TicketInfo implements Serializable {
 	}
 
 	public void setDepartStation(String departStation) {
-		this.departStation = departStation;
+		this.departStation = LocalCacheUtil.getName(departStation);
 	}
 
 	public String getArriveStation() {
@@ -156,7 +158,7 @@ public class TicketInfo implements Serializable {
 	}
 
 	public void setArriveStation(String arriveStation) {
-		this.arriveStation = arriveStation;
+		this.arriveStation = LocalCacheUtil.getName(arriveStation);
 	}
 
 	public String getDepartTime() {
